@@ -50,37 +50,14 @@ const Addnotes = ({ showAlert }) => {
 
   const isValid = note.title.length >= 4 && note.description.length >= 5;
 
-  const inputStyle = {
-    background: darkMode ? "#1e293b" : "#f8fafc",
-    border: `1px solid ${darkMode ? "#475569" : "#d1d5db"}`,
-    borderRadius: "12px",
-    color: darkMode ? "#f1f5f9" : "#1e293b",
-    paddingLeft: "16px",
-    paddingRight: "16px",
-  };
-
-  const inputFocusHandler = (e) => {
-    e.target.style.borderColor = "#6366f1";
-    e.target.style.boxShadow = "0 0 0 3px rgba(99,102,241,0.15)";
-  };
-
-  const inputBlurHandler = (e) => {
-    e.target.style.borderColor = darkMode ? "#475569" : "#d1d5db";
-    e.target.style.boxShadow = "none";
-  };
+  const ic = darkMode ? "input-dark" : "input-light";
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="overflow-hidden"
-      style={{
-        background: darkMode ? "#1e293b" : "#ffffff",
-        border: `1px solid ${darkMode ? "#475569" : "#c7d2fe"}`,
-        borderRadius: "16px",
-        boxShadow: darkMode ? "0 8px 32px rgba(0,0,0,0.4)" : "0 8px 32px rgba(99,102,241,0.08), 0 2px 8px rgba(0,0,0,0.06)",
-      }}
+      className={`overflow-hidden ${darkMode ? "card-dark" : "card-light"}`}
     >
       {/* Header - clickable to toggle */}
       <button
@@ -133,10 +110,8 @@ const Addnotes = ({ showAlert }) => {
                 onChange={onChange}
                 minLength={4}
                 required
-                className="w-full py-3 transition-all duration-200 outline-none"
-                style={inputStyle}
-                onFocus={inputFocusHandler}
-                onBlur={inputBlurHandler}
+                className={`w-full py-3 transition-all outline-none ${ic}`}
+                style={{ paddingLeft: "16px", paddingRight: "16px" }}
               />
             </div>
 
@@ -157,10 +132,8 @@ const Addnotes = ({ showAlert }) => {
                 minLength={5}
                 required
                 rows={3}
-                className="w-full py-3 transition-all duration-200 outline-none resize-none"
-                style={inputStyle}
-                onFocus={inputFocusHandler}
-                onBlur={inputBlurHandler}
+                className={`w-full py-3 transition-all outline-none resize-none ${ic}`}
+                style={{ paddingLeft: "16px", paddingRight: "16px" }}
               />
             </div>
 
@@ -201,10 +174,8 @@ const Addnotes = ({ showAlert }) => {
                 name="tag"
                 placeholder="Or type a custom tag..."
                 onChange={onChange}
-                className="w-full py-3 transition-all duration-200 outline-none"
-                style={inputStyle}
-                onFocus={inputFocusHandler}
-                onBlur={inputBlurHandler}
+                className={`w-full py-3 transition-all outline-none ${ic}`}
+                style={{ paddingLeft: "16px", paddingRight: "16px" }}
               />
             </div>
 

@@ -80,13 +80,7 @@ const About = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="p-6 transition-all duration-300 hover:-translate-y-1"
-            style={{
-              background: darkMode ? "#1e293b" : "#ffffff",
-              border: `1px solid ${darkMode ? "#475569" : "#c7d2fe"}`,
-              borderRadius: "16px",
-              boxShadow: darkMode ? "0 4px 20px rgba(0,0,0,0.3)" : "0 4px 16px rgba(99,102,241,0.06), 0 1px 4px rgba(0,0,0,0.04)",
-            }}
+            className={`p-6 transition-all duration-300 hover:-translate-y-1 ${darkMode ? "card-dark-sm" : "card-light-sm"}`}
           >
             <div
               className={`w-12 h-12 flex items-center justify-center text-white mb-4 bg-gradient-to-br ${feature.gradient}`}

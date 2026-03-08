@@ -50,44 +50,63 @@ const Addnotes = ({ showAlert }) => {
 
   const isValid = note.title.length >= 4 && note.description.length >= 5;
 
-  const inputClass = `w-full px-4 py-3 rounded-xl border transition-all duration-200 outline-none ${
-    darkMode
-      ? "bg-slate-800/50 border-slate-700 text-white placeholder-slate-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
-      : "bg-white border-gray-200 text-gray-900 placeholder-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
-  }`;
+  const inputStyle = {
+    background: darkMode ? "#1e293b" : "#f8fafc",
+    border: `1px solid ${darkMode ? "#475569" : "#d1d5db"}`,
+    borderRadius: "12px",
+    color: darkMode ? "#f1f5f9" : "#1e293b",
+    paddingLeft: "16px",
+    paddingRight: "16px",
+  };
+
+  const inputFocusHandler = (e) => {
+    e.target.style.borderColor = "#6366f1";
+    e.target.style.boxShadow = "0 0 0 3px rgba(99,102,241,0.15)";
+  };
+
+  const inputBlurHandler = (e) => {
+    e.target.style.borderColor = darkMode ? "#475569" : "#d1d5db";
+    e.target.style.boxShadow = "none";
+  };
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className={`rounded-2xl overflow-hidden ${
-        darkMode
-          ? "bg-slate-900/50 border border-slate-800"
-          : "bg-white border border-gray-100 shadow-sm"
-      }`}
+      className="overflow-hidden"
+      style={{
+        background: darkMode ? "#1e293b" : "#ffffff",
+        border: `1px solid ${darkMode ? "#334155" : "#e2e8f0"}`,
+        borderRadius: "16px",
+        boxShadow: darkMode ? "0 4px 24px rgba(0,0,0,0.3)" : "0 4px 24px rgba(0,0,0,0.06)",
+      }}
     >
       {/* Header - clickable to toggle */}
       <button
         onClick={() => setExpanded(!expanded)}
-        className={`w-full flex items-center justify-between p-6 cursor-pointer border-none bg-transparent text-left ${
+        className={`w-full flex items-center justify-between p-6 cursor-pointer text-left ${
           expanded ? "pb-0" : ""
         }`}
+        style={{ border: "none", background: "transparent" }}
       >
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center">
+          <div
+            className="w-10 h-10 flex items-center justify-center bg-gradient-to-br from-primary-500 to-purple-600"
+            style={{ borderRadius: "12px" }}
+          >
             <FiPlus className="text-white" size={20} />
           </div>
           <div>
-            <h2 className={`text-xl font-bold ${darkMode ? "text-white" : "text-gray-900"}`}>
+            <h2 className="text-xl font-bold" style={{ color: darkMode ? "#f1f5f9" : "#1e293b" }}>
               Add a Note
             </h2>
-            <p className={`text-sm ${darkMode ? "text-slate-400" : "text-gray-500"}`}>
+            <p className="text-sm" style={{ color: darkMode ? "#94a3b8" : "#64748b" }}>
               {expanded ? "Capture your thoughts" : "Click to expand  |  Ctrl+N"}
             </p>
           </div>
         </div>
-        <span className={darkMode ? "text-slate-400" : "text-gray-400"}>
+        <span style={{ color: darkMode ? "#94a3b8" : "#94a3b8" }}>
           {expanded ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
         </span>
       </button>
@@ -98,10 +117,10 @@ const Addnotes = ({ showAlert }) => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className={`text-sm font-medium ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
+                <label className="text-sm font-medium" style={{ color: darkMode ? "#94a3b8" : "#1e293b" }}>
                   Title
                 </label>
-                <span className={`text-xs ${note.title.length >= 4 ? "text-emerald-500" : darkMode ? "text-slate-500" : "text-gray-400"}`}>
+                <span className="text-xs" style={{ color: note.title.length >= 4 ? "#10b981" : (darkMode ? "#64748b" : "#94a3b8") }}>
                   {note.title.length}/4 min
                 </span>
               </div>
@@ -114,16 +133,19 @@ const Addnotes = ({ showAlert }) => {
                 onChange={onChange}
                 minLength={4}
                 required
-                className={inputClass}
+                className="w-full py-3 transition-all duration-200 outline-none"
+                style={inputStyle}
+                onFocus={inputFocusHandler}
+                onBlur={inputBlurHandler}
               />
             </div>
 
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className={`text-sm font-medium ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
+                <label className="text-sm font-medium" style={{ color: darkMode ? "#94a3b8" : "#1e293b" }}>
                   Description
                 </label>
-                <span className={`text-xs ${note.description.length >= 5 ? "text-emerald-500" : darkMode ? "text-slate-500" : "text-gray-400"}`}>
+                <span className="text-xs" style={{ color: note.description.length >= 5 ? "#10b981" : (darkMode ? "#64748b" : "#94a3b8") }}>
                   {note.description.length}/5 min
                 </span>
               </div>
@@ -135,12 +157,15 @@ const Addnotes = ({ showAlert }) => {
                 minLength={5}
                 required
                 rows={3}
-                className={`${inputClass} resize-none`}
+                className="w-full py-3 transition-all duration-200 outline-none resize-none"
+                style={inputStyle}
+                onFocus={inputFocusHandler}
+                onBlur={inputBlurHandler}
               />
             </div>
 
             <div>
-              <label className={`block text-sm font-medium mb-2 ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
+              <label className="block text-sm font-medium mb-2" style={{ color: darkMode ? "#94a3b8" : "#1e293b" }}>
                 <FiTag className="inline mr-1" size={14} />
                 Tag
               </label>
@@ -152,13 +177,18 @@ const Addnotes = ({ showAlert }) => {
                     key={tag}
                     type="button"
                     onClick={() => selectTag(tag)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer border-none ${
-                      note.tag === tag
-                        ? "bg-primary-500 text-white shadow-sm"
-                        : darkMode
-                        ? "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-300"
-                        : "bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700"
-                    }`}
+                    className="px-3 py-1.5 text-xs font-medium transition-all cursor-pointer"
+                    style={{
+                      border: "none",
+                      borderRadius: "8px",
+                      background: note.tag === tag
+                        ? "#6366f1"
+                        : (darkMode ? "#334155" : "#f1f5f9"),
+                      color: note.tag === tag
+                        ? "#ffffff"
+                        : (darkMode ? "#94a3b8" : "#64748b"),
+                      boxShadow: note.tag === tag ? "0 2px 8px rgba(99,102,241,0.3)" : "none",
+                    }}
                   >
                     {tag}
                   </button>
@@ -171,24 +201,33 @@ const Addnotes = ({ showAlert }) => {
                 name="tag"
                 placeholder="Or type a custom tag..."
                 onChange={onChange}
-                className={inputClass}
+                className="w-full py-3 transition-all duration-200 outline-none"
+                style={inputStyle}
+                onFocus={inputFocusHandler}
+                onBlur={inputBlurHandler}
               />
             </div>
 
             <div className="flex items-center justify-between pt-2">
-              <p className={`text-xs ${darkMode ? "text-slate-500" : "text-gray-400"}`}>
+              <p className="text-xs" style={{ color: darkMode ? "#64748b" : "#94a3b8" }}>
                 Ctrl+N to quick focus
               </p>
               <button
                 disabled={!isValid || submitting}
                 type="submit"
-                className={`px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-200 cursor-pointer border-none ${
+                className={`px-6 py-3 font-semibold text-sm transition-all duration-200 cursor-pointer ${
                   isValid && !submitting
                     ? "bg-gradient-to-r from-primary-500 to-purple-600 text-white hover:shadow-lg hover:shadow-primary-500/25 hover:-translate-y-0.5"
-                    : darkMode
-                    ? "bg-slate-800 text-slate-600 cursor-not-allowed"
-                    : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "cursor-not-allowed"
                 }`}
+                style={{
+                  border: "none",
+                  borderRadius: "12px",
+                  ...(!(isValid && !submitting) ? {
+                    background: darkMode ? "#334155" : "#f1f5f9",
+                    color: darkMode ? "#64748b" : "#94a3b8",
+                  } : {}),
+                }}
               >
                 {submitting ? (
                   <span className="flex items-center gap-2">

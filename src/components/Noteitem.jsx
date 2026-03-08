@@ -75,6 +75,27 @@ const Noteitem = ({ note, updateNote, showAlert }) => {
 
   const isPinned = note.tag === "Pinned";
 
+  const cardStyle = isPinned
+    ? {
+        background: darkMode ? "rgba(234,179,8,0.05)" : "#fefce8",
+        border: `2px solid ${darkMode ? "rgba(234,179,8,0.2)" : "#fde68a"}`,
+        borderRadius: "16px",
+      }
+    : {
+        background: darkMode ? "#1e293b" : "#ffffff",
+        border: `1px solid ${darkMode ? "#334155" : "#e2e8f0"}`,
+        borderRadius: "16px",
+        boxShadow: darkMode ? "0 4px 24px rgba(0,0,0,0.3)" : "0 4px 24px rgba(0,0,0,0.06)",
+      };
+
+  const actionBtnStyle = (hoverBg, hoverColor) => ({
+    border: "none",
+    background: "transparent",
+    cursor: "pointer",
+    borderRadius: "8px",
+    color: darkMode ? "#94a3b8" : "#94a3b8",
+  });
+
   return (
     <motion.div
       layout
@@ -82,20 +103,20 @@ const Noteitem = ({ note, updateNote, showAlert }) => {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.3 }}
-      className={`group relative rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1 ${
-        isPinned
-          ? darkMode
-            ? "bg-yellow-500/5 border-2 border-yellow-500/20 hover:border-yellow-500/40 hover:shadow-xl hover:shadow-yellow-500/5"
-            : "bg-yellow-50 border-2 border-yellow-200 hover:border-yellow-300 hover:shadow-xl hover:shadow-yellow-100/50"
-          : darkMode
-          ? "bg-slate-900/50 border border-slate-800 hover:border-slate-700 hover:shadow-xl hover:shadow-primary-500/5"
-          : "bg-white border border-gray-100 hover:border-gray-200 hover:shadow-xl hover:shadow-gray-200/50"
-      }`}
+      className="group relative p-5 transition-all duration-300 hover:-translate-y-1"
+      style={cardStyle}
     >
       {/* Pin indicator */}
       {isPinned && (
         <div className="absolute -top-2 -right-2">
-          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-yellow-500 shadow-lg">
+          <span
+            className="flex h-5 w-5 items-center justify-center"
+            style={{
+              borderRadius: "50%",
+              background: "#eab308",
+              boxShadow: "0 4px 12px rgba(234,179,8,0.4)",
+            }}
+          >
             <FiStar size={10} className="text-white fill-white" />
           </span>
         </div>
@@ -104,7 +125,8 @@ const Noteitem = ({ note, updateNote, showAlert }) => {
       {/* Tag & Actions Row */}
       <div className="flex items-center justify-between mb-3">
         <span
-          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium text-white bg-gradient-to-r ${getTagGradient(note.tag)}`}
+          className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium text-white bg-gradient-to-r ${getTagGradient(note.tag)}`}
+          style={{ borderRadius: "9999px" }}
         >
           <FiTag size={10} />
           {note.tag || "General"}
@@ -113,46 +135,35 @@ const Noteitem = ({ note, updateNote, showAlert }) => {
         <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <button
             onClick={handlePin}
-            className={`p-2 rounded-lg transition-all cursor-pointer border-none ${
-              isPinned
-                ? "text-yellow-500"
-                : darkMode
-                ? "hover:bg-slate-800 text-slate-400 hover:text-yellow-400"
-                : "hover:bg-gray-100 text-gray-400 hover:text-yellow-500"
-            }`}
+            className="p-2 transition-all cursor-pointer"
+            style={{
+              ...actionBtnStyle(),
+              color: isPinned ? "#eab308" : (darkMode ? "#94a3b8" : "#94a3b8"),
+            }}
             title={isPinned ? "Unpin note" : "Pin note"}
           >
             <FiStar size={15} className={isPinned ? "fill-yellow-500" : ""} />
           </button>
           <button
             onClick={handleCopy}
-            className={`p-2 rounded-lg transition-all cursor-pointer border-none ${
-              darkMode
-                ? "hover:bg-slate-800 text-slate-400 hover:text-primary-400"
-                : "hover:bg-gray-100 text-gray-400 hover:text-primary-500"
-            }`}
+            className="p-2 transition-all cursor-pointer"
+            style={actionBtnStyle()}
             title="Copy to clipboard"
           >
-            {copied ? <FiCheck size={15} className="text-emerald-500" /> : <FiCopy size={15} />}
+            {copied ? <FiCheck size={15} style={{ color: "#10b981" }} /> : <FiCopy size={15} />}
           </button>
           <button
             onClick={() => updateNote(note)}
-            className={`p-2 rounded-lg transition-all cursor-pointer border-none ${
-              darkMode
-                ? "hover:bg-slate-800 text-slate-400 hover:text-primary-400"
-                : "hover:bg-gray-100 text-gray-400 hover:text-primary-500"
-            }`}
+            className="p-2 transition-all cursor-pointer"
+            style={actionBtnStyle()}
             title="Edit note"
           >
             <FiEdit2 size={15} />
           </button>
           <button
             onClick={() => setShowConfirm(true)}
-            className={`p-2 rounded-lg transition-all cursor-pointer border-none ${
-              darkMode
-                ? "hover:bg-red-500/10 text-slate-400 hover:text-red-400"
-                : "hover:bg-red-50 text-gray-400 hover:text-red-500"
-            }`}
+            className="p-2 transition-all cursor-pointer"
+            style={actionBtnStyle()}
             title="Delete note"
           >
             <FiTrash2 size={15} />
@@ -161,15 +172,15 @@ const Noteitem = ({ note, updateNote, showAlert }) => {
       </div>
 
       {/* Content */}
-      <h3 className={`text-lg font-semibold mb-2 line-clamp-1 ${darkMode ? "text-white" : "text-gray-900"}`}>
+      <h3 className="text-lg font-semibold mb-2 line-clamp-1" style={{ color: darkMode ? "#f1f5f9" : "#1e293b" }}>
         {note.title}
       </h3>
-      <p className={`text-sm leading-relaxed line-clamp-3 mb-4 whitespace-pre-wrap ${darkMode ? "text-slate-400" : "text-gray-500"}`}>
+      <p className="text-sm leading-relaxed line-clamp-3 mb-4 whitespace-pre-wrap" style={{ color: darkMode ? "#94a3b8" : "#64748b" }}>
         {note.description}
       </p>
 
       {/* Date */}
-      <div className={`flex items-center gap-1.5 text-xs ${darkMode ? "text-slate-500" : "text-gray-400"}`}>
+      <div className="flex items-center gap-1.5 text-xs" style={{ color: darkMode ? "#64748b" : "#94a3b8" }}>
         <FiClock size={12} />
         {formatDate(note.date)}
       </div>
@@ -179,28 +190,34 @@ const Noteitem = ({ note, updateNote, showAlert }) => {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`mt-4 p-3 rounded-xl border ${
-            darkMode ? "bg-slate-800 border-slate-700" : "bg-gray-50 border-gray-200"
-          }`}
+          className="mt-4 p-3"
+          style={{
+            background: darkMode ? "#334155" : "#f8fafc",
+            border: `1px solid ${darkMode ? "#475569" : "#e2e8f0"}`,
+            borderRadius: "12px",
+          }}
         >
-          <p className={`text-sm mb-3 ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
+          <p className="text-sm mb-3" style={{ color: darkMode ? "#94a3b8" : "#64748b" }}>
             Delete this note permanently?
           </p>
           <div className="flex gap-2">
             <button
               onClick={handleDelete}
               disabled={deleting}
-              className="px-3 py-1.5 rounded-lg bg-red-500 text-white text-xs font-medium hover:bg-red-600 transition-colors cursor-pointer border-none"
+              className="px-3 py-1.5 text-white text-xs font-medium transition-colors cursor-pointer"
+              style={{ background: "#ef4444", border: "none", borderRadius: "8px" }}
             >
               {deleting ? "Deleting..." : "Delete"}
             </button>
             <button
               onClick={() => setShowConfirm(false)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer border-none ${
-                darkMode
-                  ? "bg-slate-700 text-slate-300 hover:bg-slate-600"
-                  : "bg-gray-200 text-gray-600 hover:bg-gray-300"
-              }`}
+              className="px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer"
+              style={{
+                background: darkMode ? "#475569" : "#e2e8f0",
+                color: darkMode ? "#94a3b8" : "#64748b",
+                border: "none",
+                borderRadius: "8px",
+              }}
             >
               Cancel
             </button>

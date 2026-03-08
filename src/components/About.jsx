@@ -53,17 +53,20 @@ const About = () => {
         transition={{ duration: 0.6 }}
         className="text-center mb-16"
       >
-        <span className={`inline-block px-4 py-1.5 rounded-full text-xs font-semibold mb-4 ${
-          darkMode
-            ? "bg-primary-500/10 text-primary-400"
-            : "bg-primary-50 text-primary-600"
-        }`}>
+        <span
+          className="inline-block px-4 py-1.5 text-xs font-semibold mb-4"
+          style={{
+            borderRadius: "9999px",
+            background: darkMode ? "rgba(99,102,241,0.1)" : "#eef2ff",
+            color: darkMode ? "#818cf8" : "#4f46e5",
+          }}
+        >
           ABOUT iNOTEBOOK
         </span>
-        <h1 className={`text-4xl sm:text-5xl font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
+        <h1 className="text-4xl sm:text-5xl font-bold mb-4" style={{ color: darkMode ? "#f1f5f9" : "#1e293b" }}>
           Your Notes, <span className="gradient-text">Secured</span> in the Cloud
         </h1>
-        <p className={`text-lg max-w-2xl mx-auto ${darkMode ? "text-slate-400" : "text-gray-500"}`}>
+        <p className="text-lg max-w-2xl mx-auto" style={{ color: darkMode ? "#94a3b8" : "#64748b" }}>
           iNotebook is a modern, secure cloud notebook that helps you organize your thoughts,
           ideas, and important notes — all in one place.
         </p>
@@ -77,19 +80,24 @@ const About = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className={`rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 ${
-              darkMode
-                ? "bg-slate-900/50 border border-slate-800 hover:border-slate-700"
-                : "bg-white border border-gray-100 hover:shadow-lg"
-            }`}
+            className="p-6 transition-all duration-300 hover:-translate-y-1"
+            style={{
+              background: darkMode ? "#1e293b" : "#ffffff",
+              border: `1px solid ${darkMode ? "#334155" : "#e2e8f0"}`,
+              borderRadius: "16px",
+              boxShadow: darkMode ? "0 4px 24px rgba(0,0,0,0.3)" : "0 4px 24px rgba(0,0,0,0.06)",
+            }}
           >
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-white mb-4 shadow-lg`}>
+            <div
+              className={`w-12 h-12 flex items-center justify-center text-white mb-4 bg-gradient-to-br ${feature.gradient}`}
+              style={{ borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.15)" }}
+            >
               {feature.icon}
             </div>
-            <h3 className={`text-lg font-semibold mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}>
+            <h3 className="text-lg font-semibold mb-2" style={{ color: darkMode ? "#f1f5f9" : "#1e293b" }}>
               {feature.title}
             </h3>
-            <p className={`text-sm leading-relaxed ${darkMode ? "text-slate-400" : "text-gray-500"}`}>
+            <p className="text-sm leading-relaxed" style={{ color: darkMode ? "#94a3b8" : "#64748b" }}>
               {feature.description}
             </p>
           </motion.div>
@@ -101,16 +109,19 @@ const About = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}
-        className={`mt-16 rounded-2xl p-8 text-center ${
-          darkMode
-            ? "bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700"
-            : "bg-gradient-to-br from-primary-50 to-purple-50 border border-primary-100"
-        }`}
+        className="mt-16 p-8 text-center"
+        style={{
+          background: darkMode
+            ? "linear-gradient(to bottom right, #1e293b, #334155)"
+            : "linear-gradient(to bottom right, #eef2ff, #f5f3ff)",
+          border: `1px solid ${darkMode ? "#334155" : "#c7d2fe"}`,
+          borderRadius: "16px",
+        }}
       >
-        <h2 className={`text-2xl font-bold mb-3 ${darkMode ? "text-white" : "text-gray-900"}`}>
+        <h2 className="text-2xl font-bold mb-3" style={{ color: darkMode ? "#f1f5f9" : "#1e293b" }}>
           Built with Modern Tech Stack
         </h2>
-        <p className={`text-sm mb-6 ${darkMode ? "text-slate-400" : "text-gray-500"}`}>
+        <p className="text-sm mb-6" style={{ color: darkMode ? "#94a3b8" : "#64748b" }}>
           Powered by the latest and most reliable technologies
         </p>
         <div className="flex flex-wrap justify-center gap-3">
@@ -118,11 +129,14 @@ const About = () => {
             (tech) => (
               <span
                 key={tech}
-                className={`px-4 py-2 rounded-xl text-sm font-medium ${
-                  darkMode
-                    ? "bg-slate-800 text-slate-300 border border-slate-700"
-                    : "bg-white text-gray-700 border border-gray-200 shadow-sm"
-                }`}
+                className="px-4 py-2 text-sm font-medium"
+                style={{
+                  background: darkMode ? "#334155" : "#ffffff",
+                  color: darkMode ? "#94a3b8" : "#1e293b",
+                  border: `1px solid ${darkMode ? "#475569" : "#e2e8f0"}`,
+                  borderRadius: "12px",
+                  boxShadow: darkMode ? "none" : "0 1px 3px rgba(0,0,0,0.05)",
+                }}
               >
                 {tech}
               </span>

@@ -57,14 +57,17 @@ body.dark ::-webkit-scrollbar-thumb {
 
 /* Glassmorphism utility */
 .glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
 }
 
 body.dark .glass {
-  background: rgba(15, 23, 42, 0.7);
-  border: 1px solid rgba(148, 163, 184, 0.1);
+  background: rgba(15, 23, 42, 0.92);
+  border-bottom: 1px solid rgba(51, 65, 85, 0.6);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Gradient text */

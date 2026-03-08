@@ -94,20 +94,32 @@ const Notes = ({ showAlert }) => {
   const isEditValid =
     currentNote.etitle.length >= 4 && currentNote.edescription.length >= 5;
 
-  const inputClass = `w-full px-4 py-3 rounded-xl border transition-all duration-200 outline-none ${
-    darkMode
-      ? "bg-slate-800/50 border-slate-700 text-white placeholder-slate-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
-      : "bg-white border-gray-200 text-gray-900 placeholder-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
-  }`;
+  const inputStyle = {
+    background: darkMode ? "#1e293b" : "#f8fafc",
+    border: `1px solid ${darkMode ? "#475569" : "#d1d5db"}`,
+    borderRadius: "12px",
+    color: darkMode ? "#f1f5f9" : "#1e293b",
+    paddingLeft: "16px",
+    paddingRight: "16px",
+  };
 
-  const chipClass = (active) =>
-    `px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer border-none whitespace-nowrap ${
-      active
-        ? "bg-primary-500 text-white shadow-sm"
-        : darkMode
-        ? "bg-slate-800 text-slate-400 hover:bg-slate-700"
-        : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-    }`;
+  const inputFocusHandler = (e) => {
+    e.target.style.borderColor = "#6366f1";
+    e.target.style.boxShadow = "0 0 0 3px rgba(99,102,241,0.15)";
+  };
+
+  const inputBlurHandler = (e) => {
+    e.target.style.borderColor = darkMode ? "#475569" : "#d1d5db";
+    e.target.style.boxShadow = "none";
+  };
+
+  const chipStyle = (active) => ({
+    border: "none",
+    borderRadius: "8px",
+    background: active ? "#6366f1" : (darkMode ? "#334155" : "#f1f5f9"),
+    color: active ? "#ffffff" : (darkMode ? "#94a3b8" : "#64748b"),
+    boxShadow: active ? "0 2px 8px rgba(99,102,241,0.3)" : "none",
+  });
 
   return (
     <>
@@ -119,10 +131,10 @@ const Notes = ({ showAlert }) => {
           {/* Title Row */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h2 className={`text-2xl font-bold ${darkMode ? "text-white" : "text-gray-900"}`}>
+              <h2 className="text-2xl font-bold" style={{ color: darkMode ? "#f1f5f9" : "#1e293b" }}>
                 Your Notes
               </h2>
-              <p className={`text-sm mt-1 ${darkMode ? "text-slate-400" : "text-gray-500"}`}>
+              <p className="text-sm mt-1" style={{ color: darkMode ? "#94a3b8" : "#64748b" }}>
                 {processedNotes.length} of {notes.length} {notes.length === 1 ? "note" : "notes"}
               </p>
             </div>
@@ -130,28 +142,36 @@ const Notes = ({ showAlert }) => {
             {notes.length > 0 && (
               <div className="flex items-center gap-2">
                 {/* View Toggle */}
-                <div className={`flex items-center rounded-lg p-0.5 ${darkMode ? "bg-slate-800" : "bg-gray-100"}`}>
+                <div
+                  className="flex items-center p-0.5"
+                  style={{
+                    background: darkMode ? "#334155" : "#f1f5f9",
+                    borderRadius: "8px",
+                  }}
+                >
                   <button
                     onClick={() => setViewMode("grid")}
-                    className={`p-2 rounded-md transition-all cursor-pointer border-none ${
-                      viewMode === "grid"
-                        ? "bg-primary-500 text-white shadow-sm"
-                        : darkMode
-                        ? "text-slate-400 hover:text-white"
-                        : "text-gray-400 hover:text-gray-700"
-                    }`}
+                    className="p-2 transition-all cursor-pointer"
+                    style={{
+                      border: "none",
+                      borderRadius: "6px",
+                      background: viewMode === "grid" ? "#6366f1" : "transparent",
+                      color: viewMode === "grid" ? "#ffffff" : (darkMode ? "#94a3b8" : "#94a3b8"),
+                      boxShadow: viewMode === "grid" ? "0 2px 8px rgba(99,102,241,0.3)" : "none",
+                    }}
                   >
                     <FiGrid size={16} />
                   </button>
                   <button
                     onClick={() => setViewMode("list")}
-                    className={`p-2 rounded-md transition-all cursor-pointer border-none ${
-                      viewMode === "list"
-                        ? "bg-primary-500 text-white shadow-sm"
-                        : darkMode
-                        ? "text-slate-400 hover:text-white"
-                        : "text-gray-400 hover:text-gray-700"
-                    }`}
+                    className="p-2 transition-all cursor-pointer"
+                    style={{
+                      border: "none",
+                      borderRadius: "6px",
+                      background: viewMode === "list" ? "#6366f1" : "transparent",
+                      color: viewMode === "list" ? "#ffffff" : (darkMode ? "#94a3b8" : "#94a3b8"),
+                      boxShadow: viewMode === "list" ? "0 2px 8px rgba(99,102,241,0.3)" : "none",
+                    }}
                   >
                     <FiList size={16} />
                   </button>
@@ -160,9 +180,13 @@ const Notes = ({ showAlert }) => {
                 {/* Search */}
                 <div className="relative w-full sm:w-64">
                   <FiSearch
-                    className={`absolute left-3 top-1/2 -translate-y-1/2 ${
-                      darkMode ? "text-slate-500" : "text-gray-400"
-                    }`}
+                    style={{
+                      position: "absolute",
+                      left: "12px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      color: darkMode ? "#64748b" : "#94a3b8",
+                    }}
                     size={16}
                   />
                   <input
@@ -170,18 +194,31 @@ const Notes = ({ showAlert }) => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search notes..."
-                    className={`w-full pl-10 pr-10 py-2.5 rounded-xl border text-sm transition-all duration-200 outline-none ${
-                      darkMode
-                        ? "bg-slate-900/50 border-slate-800 text-white placeholder-slate-500 focus:border-primary-500"
-                        : "bg-white border-gray-200 text-gray-900 placeholder-gray-400 focus:border-primary-500"
-                    }`}
+                    className="w-full py-2.5 text-sm transition-all duration-200 outline-none"
+                    style={{
+                      background: darkMode ? "#1e293b" : "#ffffff",
+                      border: `1px solid ${darkMode ? "#334155" : "#e2e8f0"}`,
+                      borderRadius: "12px",
+                      color: darkMode ? "#f1f5f9" : "#1e293b",
+                      paddingLeft: "40px",
+                      paddingRight: "40px",
+                    }}
+                    onFocus={inputFocusHandler}
+                    onBlur={inputBlurHandler}
                   />
                   {searchQuery && (
                     <button
                       onClick={() => setSearchQuery("")}
-                      className={`absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer border-none bg-transparent ${
-                        darkMode ? "text-slate-500" : "text-gray-400"
-                      }`}
+                      style={{
+                        position: "absolute",
+                        right: "12px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        cursor: "pointer",
+                        border: "none",
+                        background: "transparent",
+                        color: darkMode ? "#64748b" : "#94a3b8",
+                      }}
                     >
                       <FiX size={16} />
                     </button>
@@ -196,15 +233,20 @@ const Notes = ({ showAlert }) => {
             <div className="flex flex-col sm:flex-row gap-3">
               {/* Tag Filters */}
               <div className="flex items-center gap-2 overflow-x-auto pb-1">
-                <FiFilter size={14} className={darkMode ? "text-slate-500" : "text-gray-400"} />
-                <button onClick={() => setFilterTag("all")} className={chipClass(filterTag === "all")}>
+                <FiFilter size={14} style={{ color: darkMode ? "#64748b" : "#94a3b8" }} />
+                <button
+                  onClick={() => setFilterTag("all")}
+                  className="px-3 py-1.5 text-xs font-medium transition-all cursor-pointer whitespace-nowrap"
+                  style={chipStyle(filterTag === "all")}
+                >
                   All
                 </button>
                 {uniqueTags.map((tag) => (
                   <button
                     key={tag}
                     onClick={() => setFilterTag(tag)}
-                    className={chipClass(filterTag === tag)}
+                    className="px-3 py-1.5 text-xs font-medium transition-all cursor-pointer whitespace-nowrap"
+                    style={chipStyle(filterTag === tag)}
                   >
                     {tag}
                   </button>
@@ -213,15 +255,17 @@ const Notes = ({ showAlert }) => {
 
               {/* Sort */}
               <div className="flex items-center gap-2 sm:ml-auto">
-                <span className={`text-xs ${darkMode ? "text-slate-500" : "text-gray-400"}`}>Sort:</span>
+                <span className="text-xs" style={{ color: darkMode ? "#64748b" : "#94a3b8" }}>Sort:</span>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className={`text-xs px-3 py-1.5 rounded-lg border cursor-pointer outline-none ${
-                    darkMode
-                      ? "bg-slate-800 border-slate-700 text-slate-300"
-                      : "bg-white border-gray-200 text-gray-600"
-                  }`}
+                  className="text-xs px-3 py-1.5 cursor-pointer outline-none"
+                  style={{
+                    background: darkMode ? "#334155" : "#ffffff",
+                    border: `1px solid ${darkMode ? "#475569" : "#e2e8f0"}`,
+                    borderRadius: "8px",
+                    color: darkMode ? "#94a3b8" : "#64748b",
+                  }}
                 >
                   <option value="newest">Newest First</option>
                   <option value="oldest">Oldest First</option>
@@ -240,7 +284,7 @@ const Notes = ({ showAlert }) => {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
-              <p className={`text-sm ${darkMode ? "text-slate-400" : "text-gray-500"}`}>
+              <p className="text-sm" style={{ color: darkMode ? "#94a3b8" : "#64748b" }}>
                 Loading your notes...
               </p>
             </div>
@@ -254,15 +298,19 @@ const Notes = ({ showAlert }) => {
             animate={{ opacity: 1, y: 0 }}
             className="flex flex-col items-center justify-center py-16"
           >
-            <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-4 ${
-              darkMode ? "bg-slate-800" : "bg-gray-100"
-            }`}>
-              <FiFileText size={32} className={darkMode ? "text-slate-600" : "text-gray-300"} />
+            <div
+              className="w-20 h-20 flex items-center justify-center mb-4"
+              style={{
+                background: darkMode ? "#334155" : "#f1f5f9",
+                borderRadius: "16px",
+              }}
+            >
+              <FiFileText size={32} style={{ color: darkMode ? "#64748b" : "#94a3b8" }} />
             </div>
-            <h3 className={`text-lg font-semibold mb-1 ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
+            <h3 className="text-lg font-semibold mb-1" style={{ color: darkMode ? "#94a3b8" : "#1e293b" }}>
               No notes yet
             </h3>
-            <p className={`text-sm ${darkMode ? "text-slate-500" : "text-gray-400"}`}>
+            <p className="text-sm" style={{ color: darkMode ? "#64748b" : "#94a3b8" }}>
               Create your first note above to get started
             </p>
           </motion.div>
@@ -271,8 +319,8 @@ const Notes = ({ showAlert }) => {
         {/* Search Empty State */}
         {!loading && notes.length > 0 && processedNotes.length === 0 && (
           <div className="flex flex-col items-center justify-center py-16">
-            <FiSearch size={32} className={darkMode ? "text-slate-600" : "text-gray-300"} />
-            <p className={`text-sm mt-3 ${darkMode ? "text-slate-400" : "text-gray-500"}`}>
+            <FiSearch size={32} style={{ color: darkMode ? "#64748b" : "#94a3b8" }} />
+            <p className="text-sm mt-3" style={{ color: darkMode ? "#94a3b8" : "#64748b" }}>
               No notes found
             </p>
             <button
@@ -280,7 +328,8 @@ const Notes = ({ showAlert }) => {
                 setSearchQuery("");
                 setFilterTag("all");
               }}
-              className="mt-2 text-xs text-primary-500 hover:text-primary-600 cursor-pointer border-none bg-transparent"
+              className="mt-2 text-xs text-primary-500 hover:text-primary-600 cursor-pointer"
+              style={{ border: "none", background: "transparent" }}
             >
               Clear filters
             </button>
@@ -317,7 +366,8 @@ const Notes = ({ showAlert }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            style={{ background: "rgba(0,0,0,0.5)", backdropFilter: "blur(4px)" }}
             onClick={() => setEditModal(false)}
           >
             <motion.div
@@ -326,24 +376,29 @@ const Notes = ({ showAlert }) => {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", duration: 0.5 }}
               onClick={(e) => e.stopPropagation()}
-              className={`w-full max-w-lg rounded-2xl p-6 shadow-2xl ${
-                darkMode
-                  ? "bg-slate-900 border border-slate-800"
-                  : "bg-white border border-gray-100"
-              }`}
+              className="w-full max-w-lg p-6"
+              style={{
+                background: darkMode ? "#1e293b" : "#ffffff",
+                border: `1px solid ${darkMode ? "#334155" : "#e2e8f0"}`,
+                borderRadius: "16px",
+                boxShadow: darkMode ? "0 8px 40px rgba(0,0,0,0.5)" : "0 8px 40px rgba(0,0,0,0.15)",
+              }}
             >
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center">
+                <div
+                  className="w-10 h-10 flex items-center justify-center bg-gradient-to-br from-primary-500 to-purple-600"
+                  style={{ borderRadius: "12px" }}
+                >
                   <FiEdit3 className="text-white" size={18} />
                 </div>
-                <h3 className={`text-lg font-bold ${darkMode ? "text-white" : "text-gray-900"}`}>
+                <h3 className="text-lg font-bold" style={{ color: darkMode ? "#f1f5f9" : "#1e293b" }}>
                   Edit Note
                 </h3>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <label className={`block text-sm font-medium mb-1.5 ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
+                  <label className="block text-sm font-medium mb-1.5" style={{ color: darkMode ? "#94a3b8" : "#1e293b" }}>
                     Title
                   </label>
                   <input
@@ -352,11 +407,14 @@ const Notes = ({ showAlert }) => {
                     name="etitle"
                     onChange={onChange}
                     minLength={4}
-                    className={inputClass}
+                    className="w-full py-3 transition-all duration-200 outline-none"
+                    style={inputStyle}
+                    onFocus={inputFocusHandler}
+                    onBlur={inputBlurHandler}
                   />
                 </div>
                 <div>
-                  <label className={`block text-sm font-medium mb-1.5 ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
+                  <label className="block text-sm font-medium mb-1.5" style={{ color: darkMode ? "#94a3b8" : "#1e293b" }}>
                     Description
                   </label>
                   <textarea
@@ -365,11 +423,14 @@ const Notes = ({ showAlert }) => {
                     onChange={onChange}
                     minLength={5}
                     rows={4}
-                    className={`${inputClass} resize-none`}
+                    className="w-full py-3 transition-all duration-200 outline-none resize-none"
+                    style={inputStyle}
+                    onFocus={inputFocusHandler}
+                    onBlur={inputBlurHandler}
                   />
                 </div>
                 <div>
-                  <label className={`block text-sm font-medium mb-1.5 ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
+                  <label className="block text-sm font-medium mb-1.5" style={{ color: darkMode ? "#94a3b8" : "#1e293b" }}>
                     Tag
                   </label>
                   <input
@@ -377,7 +438,10 @@ const Notes = ({ showAlert }) => {
                     type="text"
                     name="etag"
                     onChange={onChange}
-                    className={inputClass}
+                    className="w-full py-3 transition-all duration-200 outline-none"
+                    style={inputStyle}
+                    onFocus={inputFocusHandler}
+                    onBlur={inputBlurHandler}
                   />
                 </div>
               </div>
@@ -385,24 +449,32 @@ const Notes = ({ showAlert }) => {
               <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-6">
                 <button
                   onClick={() => setEditModal(false)}
-                  className={`px-5 py-2.5 rounded-xl font-medium text-sm transition-all cursor-pointer border-none ${
-                    darkMode
-                      ? "bg-slate-800 text-slate-300 hover:bg-slate-700"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
+                  className="px-5 py-2.5 font-medium text-sm transition-all cursor-pointer"
+                  style={{
+                    background: darkMode ? "#334155" : "#f1f5f9",
+                    color: darkMode ? "#94a3b8" : "#64748b",
+                    border: "none",
+                    borderRadius: "12px",
+                  }}
                 >
                   Cancel
                 </button>
                 <button
                   disabled={!isEditValid}
                   onClick={handleUpdate}
-                  className={`px-5 py-2.5 rounded-xl font-medium text-sm transition-all cursor-pointer border-none ${
+                  className={`px-5 py-2.5 font-medium text-sm transition-all cursor-pointer ${
                     isEditValid
                       ? "bg-gradient-to-r from-primary-500 to-purple-600 text-white hover:shadow-lg hover:shadow-primary-500/25"
-                      : darkMode
-                      ? "bg-slate-800 text-slate-600 cursor-not-allowed"
-                      : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                      : "cursor-not-allowed"
                   }`}
+                  style={{
+                    border: "none",
+                    borderRadius: "12px",
+                    ...(isEditValid ? {} : {
+                      background: darkMode ? "#334155" : "#f1f5f9",
+                      color: darkMode ? "#64748b" : "#94a3b8",
+                    }),
+                  }}
                 >
                   Save Changes
                 </button>

@@ -1,145 +1,127 @@
 import { motion } from "framer-motion";
-import { FiShield, FiCloud, FiSmartphone, FiZap, FiLock, FiHeart } from "react-icons/fi";
+import {
+  FiShield, FiCloud, FiSmartphone, FiZap, FiLock, FiHeart,
+  FiLayout, FiMaximize, FiDownload, FiTrash2, FiShare2, FiStar,
+} from "react-icons/fi";
 import { useTheme } from "../context/ThemeContext";
 
 const features = [
-  {
-    icon: <FiCloud size={24} />,
-    title: "Cloud Synced",
-    description: "Your notes are securely stored in the cloud, accessible from anywhere at any time.",
-    gradient: "from-blue-500 to-cyan-500",
-  },
-  {
-    icon: <FiShield size={24} />,
-    title: "Secure & Private",
-    description: "End-to-end encryption ensures your notes stay private. Only you can access them.",
-    gradient: "from-emerald-500 to-teal-500",
-  },
-  {
-    icon: <FiZap size={24} />,
-    title: "Lightning Fast",
-    description: "Optimized performance with instant loading. No lag, no waiting — just productivity.",
-    gradient: "from-orange-500 to-amber-500",
-  },
-  {
-    icon: <FiSmartphone size={24} />,
-    title: "Fully Responsive",
-    description: "Works beautifully on any device — desktop, tablet, or mobile phone.",
-    gradient: "from-purple-500 to-pink-500",
-  },
-  {
-    icon: <FiLock size={24} />,
-    title: "JWT Authentication",
-    description: "Industry-standard token-based authentication keeps your account protected.",
-    gradient: "from-red-500 to-rose-500",
-  },
-  {
-    icon: <FiHeart size={24} />,
-    title: "Built with Love",
-    description: "Crafted with modern technologies — React, Node.js, Express, and MongoDB.",
-    gradient: "from-primary-500 to-violet-500",
-  },
+  { icon: <FiCloud size={22} />,      title: "Cloud Synced",       desc: "Access your notes from anywhere, anytime. Always in sync.", color: "#3b82f6" },
+  { icon: <FiShield size={22} />,     title: "Secure & Private",   desc: "Your data stays encrypted and private. Only you can see it.", color: "#10b981" },
+  { icon: <FiZap size={22} />,        title: "Lightning Fast",     desc: "Instant loading, zero lag. Built for maximum productivity.", color: "#f59e0b" },
+  { icon: <FiSmartphone size={22} />, title: "Fully Responsive",   desc: "Perfect on every device — desktop, tablet, or mobile.", color: "#8b5cf6" },
+  { icon: <FiLayout size={22} />,     title: "Note Templates",     desc: "Meeting notes, todos, journals — start writing instantly.", color: "#06b6d4" },
+  { icon: <FiMaximize size={22} />,   title: "Focus Mode",         desc: "Distraction-free writing with fullscreen zen mode.", color: "#ec4899" },
+  { icon: <FiDownload size={22} />,   title: "Export & Import",    desc: "Export as JSON or text. Import notes from backup files.", color: "#f97316" },
+  { icon: <FiTrash2 size={22} />,     title: "Trash & Restore",    desc: "Accidentally deleted? Restore notes from the trash bin.", color: "#ef4444" },
+  { icon: <FiShare2 size={22} />,     title: "Share Notes",        desc: "Share as text, markdown, or send directly via email.", color: "#14b8a6" },
+  { icon: <FiStar size={22} />,       title: "Pin & Organize",     desc: "Pin important notes, filter by tags, sort your way.", color: "#eab308" },
+  { icon: <FiLock size={22} />,       title: "JWT Auth",           desc: "Industry-standard token authentication protects your account.", color: "#7c3aed" },
+  { icon: <FiHeart size={22} />,      title: "Built with Love",    desc: "Modern tech stack — React, Node.js, Express, MongoDB.", color: "#ec4899" },
 ];
 
-const About = () => {
-  const { darkMode } = useTheme();
+const techs = ["React 18", "Node.js", "Express", "MongoDB", "Tailwind CSS v4", "Framer Motion", "JWT", "Vite"];
+
+export default function About() {
+  const { dark } = useTheme();
+  const txt = dark ? "#f1f5f9" : "#0f172a";
+  const sub = dark ? "#94a3b8" : "#64748b";
 
   return (
-    <div className="py-8 sm:py-12">
-      {/* Hero Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-16"
-      >
-        <span
-          className="inline-block px-4 py-1.5 text-xs font-semibold mb-4"
-          style={{
-            borderRadius: "9999px",
-            background: darkMode ? "rgba(99,102,241,0.1)" : "#eef2ff",
-            color: darkMode ? "#818cf8" : "#4f46e5",
-          }}
-        >
-          ABOUT iNOTEBOOK
+    <div className="py-10">
+      {/* Hero */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
+        <span className="inline-block px-4 py-1.5 text-xs font-bold tracking-widest mb-4"
+          style={{ borderRadius: 9999, background: dark ? "rgba(124,58,237,0.08)" : "rgba(124,58,237,0.05)",
+            color: "#7c3aed", border: `1px solid ${dark ? "rgba(124,58,237,0.15)" : "rgba(124,58,237,0.08)"}` }}>
+          ABOUT
         </span>
-        <h1 className="text-4xl sm:text-5xl font-bold mb-4" style={{ color: darkMode ? "#f1f5f9" : "#1e293b" }}>
-          Your Notes, <span className="gradient-text">Secured</span> in the Cloud
+        <h1 className="text-4xl sm:text-5xl font-bold mb-4" style={{ color: txt }}>
+          Your Notes, <span className="text-gradient-warm">Secured</span>
         </h1>
-        <p className="text-lg max-w-2xl mx-auto" style={{ color: darkMode ? "#94a3b8" : "#64748b" }}>
-          iNotebook is a modern, secure cloud notebook that helps you organize your thoughts,
-          ideas, and important notes — all in one place.
+        <p className="text-lg max-w-xl mx-auto" style={{ color: sub }}>
+          A modern cloud notebook packed with powerful features to keep your ideas organized, safe, and always within reach.
         </p>
       </motion.div>
 
-      {/* Features Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {features.map((feature, index) => (
-          <motion.div
-            key={feature.title}
-            initial={{ opacity: 0, y: 30 }}
+      {/* Features */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {features.map((f, i) => (
+          <motion.div key={f.title}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className={`p-6 transition-all duration-300 hover:-translate-y-1 ${darkMode ? "card-dark-sm" : "card-light-sm"}`}
+            transition={{ delay: i * 0.05 }}
+            className="card p-6 group"
+            style={{ cursor: "default" }}
           >
-            <div
-              className={`w-12 h-12 flex items-center justify-center text-white mb-4 bg-gradient-to-br ${feature.gradient}`}
-              style={{ borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.15)" }}
-            >
-              {feature.icon}
+            <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110"
+              style={{ background: `${f.color}15`, color: f.color }}>
+              {f.icon}
             </div>
-            <h3 className="text-lg font-semibold mb-2" style={{ color: darkMode ? "#f1f5f9" : "#1e293b" }}>
-              {feature.title}
-            </h3>
-            <p className="text-sm leading-relaxed" style={{ color: darkMode ? "#94a3b8" : "#64748b" }}>
-              {feature.description}
-            </p>
+            <h3 className="text-base font-bold mb-1.5" style={{ color: txt }}>{f.title}</h3>
+            <p className="text-sm leading-relaxed" style={{ color: sub }}>{f.desc}</p>
           </motion.div>
         ))}
       </div>
 
-      {/* Tech Stack */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-        className="mt-16 p-8 text-center"
-        style={{
-          background: darkMode
-            ? "linear-gradient(to bottom right, #1e293b, #334155)"
-            : "linear-gradient(to bottom right, #eef2ff, #f5f3ff)",
-          border: `1px solid ${darkMode ? "#334155" : "#c7d2fe"}`,
-          borderRadius: "16px",
-        }}
-      >
-        <h2 className="text-2xl font-bold mb-3" style={{ color: darkMode ? "#f1f5f9" : "#1e293b" }}>
-          Built with Modern Tech Stack
-        </h2>
-        <p className="text-sm mb-6" style={{ color: darkMode ? "#94a3b8" : "#64748b" }}>
-          Powered by the latest and most reliable technologies
-        </p>
-        <div className="flex flex-wrap justify-center gap-3">
-          {["React", "Node.js", "Express", "MongoDB", "Tailwind CSS", "Framer Motion", "JWT"].map(
-            (tech) => (
-              <span
-                key={tech}
-                className="px-4 py-2 text-sm font-medium"
-                style={{
-                  background: darkMode ? "#334155" : "#ffffff",
-                  color: darkMode ? "#94a3b8" : "#1e293b",
-                  border: `1px solid ${darkMode ? "#475569" : "#e2e8f0"}`,
-                  borderRadius: "12px",
-                  boxShadow: darkMode ? "none" : "0 1px 3px rgba(0,0,0,0.05)",
-                }}
-              >
-                {tech}
-              </span>
-            )
-          )}
+      {/* Stats */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+        className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {[
+          { num: "12+", label: "Features" },
+          { num: "6", label: "Templates" },
+          { num: "12", label: "Color Themes" },
+          { num: "\u221E", label: "Notes" },
+        ].map((s, i) => (
+          <div key={i} className="card p-6 text-center">
+            <p className="text-3xl font-bold text-gradient mb-1">{s.num}</p>
+            <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: sub }}>{s.label}</p>
+          </div>
+        ))}
+      </motion.div>
+
+      {/* Tech */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+        className="mt-8 card p-8 sm:p-10 text-center">
+        <h2 className="text-xl font-bold mb-2" style={{ color: txt }}>Tech Stack</h2>
+        <p className="text-sm mb-6" style={{ color: sub }}>Powered by modern, reliable technologies</p>
+        <div className="flex flex-wrap justify-center gap-2.5">
+          {techs.map((t) => (
+            <span key={t} className="px-4 py-2 text-sm font-medium"
+              style={{ background: dark ? "rgba(51,65,85,0.35)" : "rgba(241,245,249,0.7)",
+                color: sub, borderRadius: 10, border: `1px solid ${dark ? "rgba(51,65,85,0.3)" : "rgba(226,232,240,0.5)"}` }}>
+              {t}
+            </span>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Keyboard shortcuts */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+        className="mt-8 card p-8 sm:p-10">
+        <h2 className="text-xl font-bold mb-2 text-center" style={{ color: txt }}>Keyboard Shortcuts</h2>
+        <p className="text-sm mb-6 text-center" style={{ color: sub }}>Power-user shortcuts to boost your productivity</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg mx-auto">
+          {[
+            { keys: "Ctrl + N", desc: "Quick focus note form" },
+            { keys: "?", desc: "Toggle shortcuts panel" },
+            { keys: "Ctrl + E", desc: "Toggle bulk select" },
+            { keys: "Ctrl + Shift + E", desc: "Export notes" },
+            { keys: "Escape", desc: "Close modals" },
+          ].map((s) => (
+            <div key={s.keys} className="flex items-center justify-between py-2 px-3"
+              style={{ background: dark ? "rgba(51,65,85,0.15)" : "rgba(241,245,249,0.5)", borderRadius: 8 }}>
+              <span className="text-xs" style={{ color: sub }}>{s.desc}</span>
+              <kbd className="text-xs px-2 py-0.5 font-mono"
+                style={{ background: dark ? "rgba(51,65,85,0.4)" : "rgba(226,232,240,0.7)",
+                  border: `1px solid ${dark ? "rgba(71,85,105,0.3)" : "rgba(203,213,225,0.5)"}`,
+                  borderRadius: 5, color: dark ? "#94a3b8" : "#64748b" }}>
+                {s.keys}
+              </kbd>
+            </div>
+          ))}
         </div>
       </motion.div>
     </div>
   );
-};
-
-export default About;
+}

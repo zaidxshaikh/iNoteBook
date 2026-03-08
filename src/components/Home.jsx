@@ -1,9 +1,8 @@
-import React from "react";
 import Notes from "./Notes";
 
 const Home = ({ showAlert }) => {
   return (
-    <div>
+    <div className="py-6">
       <Notes showAlert={showAlert} />
     </div>
   );

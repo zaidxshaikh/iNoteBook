@@ -94,32 +94,8 @@ const Notes = ({ showAlert }) => {
   const isEditValid =
     currentNote.etitle.length >= 4 && currentNote.edescription.length >= 5;
 
-  const inputStyle = {
-    background: darkMode ? "#1e293b" : "#f8fafc",
-    border: `1px solid ${darkMode ? "#475569" : "#d1d5db"}`,
-    borderRadius: "12px",
-    color: darkMode ? "#f1f5f9" : "#1e293b",
-    paddingLeft: "16px",
-    paddingRight: "16px",
-  };
-
-  const inputFocusHandler = (e) => {
-    e.target.style.borderColor = "#6366f1";
-    e.target.style.boxShadow = "0 0 0 3px rgba(99,102,241,0.15)";
-  };
-
-  const inputBlurHandler = (e) => {
-    e.target.style.borderColor = darkMode ? "#475569" : "#d1d5db";
-    e.target.style.boxShadow = "none";
-  };
-
-  const chipStyle = (active) => ({
-    border: "none",
-    borderRadius: "8px",
-    background: active ? "#6366f1" : (darkMode ? "#334155" : "#f1f5f9"),
-    color: active ? "#ffffff" : (darkMode ? "#94a3b8" : "#64748b"),
-    boxShadow: active ? "0 2px 8px rgba(99,102,241,0.3)" : "none",
-  });
+  const ic = darkMode ? "input-dark" : "input-light";
+  const chipClass = (active) => active ? "chip-active" : (darkMode ? "chip-dark" : "chip-light");
 
   return (
     <>
@@ -194,17 +170,8 @@ const Notes = ({ showAlert }) => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search notes..."
-                    className="w-full py-2.5 text-sm transition-all duration-200 outline-none"
-                    style={{
-                      background: darkMode ? "#1e293b" : "#ffffff",
-                      border: `1px solid ${darkMode ? "#334155" : "#e2e8f0"}`,
-                      borderRadius: "12px",
-                      color: darkMode ? "#f1f5f9" : "#1e293b",
-                      paddingLeft: "40px",
-                      paddingRight: "40px",
-                    }}
-                    onFocus={inputFocusHandler}
-                    onBlur={inputBlurHandler}
+                    className={`w-full py-2.5 text-sm transition-all outline-none ${ic}`}
+                    style={{ paddingLeft: "40px", paddingRight: "40px" }}
                   />
                   {searchQuery && (
                     <button
@@ -236,8 +203,7 @@ const Notes = ({ showAlert }) => {
                 <FiFilter size={14} style={{ color: darkMode ? "#64748b" : "#94a3b8" }} />
                 <button
                   onClick={() => setFilterTag("all")}
-                  className="px-3 py-1.5 text-xs font-medium transition-all cursor-pointer whitespace-nowrap"
-                  style={chipStyle(filterTag === "all")}
+                  className={`px-3 py-1.5 text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${chipClass(filterTag === "all")}`}
                 >
                   All
                 </button>
@@ -245,8 +211,7 @@ const Notes = ({ showAlert }) => {
                   <button
                     key={tag}
                     onClick={() => setFilterTag(tag)}
-                    className="px-3 py-1.5 text-xs font-medium transition-all cursor-pointer whitespace-nowrap"
-                    style={chipStyle(filterTag === tag)}
+                    className={`px-3 py-1.5 text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${chipClass(filterTag === tag)}`}
                   >
                     {tag}
                   </button>
@@ -376,13 +341,7 @@ const Notes = ({ showAlert }) => {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", duration: 0.5 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-lg p-6"
-              style={{
-                background: darkMode ? "#1e293b" : "#ffffff",
-                border: `1px solid ${darkMode ? "#475569" : "#c7d2fe"}`,
-                borderRadius: "16px",
-                boxShadow: darkMode ? "0 8px 40px rgba(0,0,0,0.5)" : "0 8px 40px rgba(99,102,241,0.12), 0 4px 12px rgba(0,0,0,0.08)",
-              }}
+              className={`w-full max-w-lg p-6 ${darkMode ? "card-dark" : "card-light"}`}
             >
               <div className="flex items-center gap-3 mb-6">
                 <div
@@ -407,10 +366,8 @@ const Notes = ({ showAlert }) => {
                     name="etitle"
                     onChange={onChange}
                     minLength={4}
-                    className="w-full py-3 transition-all duration-200 outline-none"
-                    style={inputStyle}
-                    onFocus={inputFocusHandler}
-                    onBlur={inputBlurHandler}
+                    className={`w-full py-3 transition-all outline-none ${ic}`}
+                    style={{ paddingLeft: "16px", paddingRight: "16px" }}
                   />
                 </div>
                 <div>
@@ -423,10 +380,8 @@ const Notes = ({ showAlert }) => {
                     onChange={onChange}
                     minLength={5}
                     rows={4}
-                    className="w-full py-3 transition-all duration-200 outline-none resize-none"
-                    style={inputStyle}
-                    onFocus={inputFocusHandler}
-                    onBlur={inputBlurHandler}
+                    className={`w-full py-3 transition-all outline-none resize-none ${ic}`}
+                    style={{ paddingLeft: "16px", paddingRight: "16px" }}
                   />
                 </div>
                 <div>
@@ -438,10 +393,8 @@ const Notes = ({ showAlert }) => {
                     type="text"
                     name="etag"
                     onChange={onChange}
-                    className="w-full py-3 transition-all duration-200 outline-none"
-                    style={inputStyle}
-                    onFocus={inputFocusHandler}
-                    onBlur={inputBlurHandler}
+                    className={`w-full py-3 transition-all outline-none ${ic}`}
+                    style={{ paddingLeft: "16px", paddingRight: "16px" }}
                   />
                 </div>
               </div>

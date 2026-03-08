@@ -23,51 +23,128 @@
 body {
   font-family: var(--font-sans);
   transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Light mode */
-body {
-  background-color: #f1f5f9;
+  background-color: #eef2ff;
   color: #1e293b;
 }
 
-/* Dark mode */
 body.dark {
   background-color: #0f172a;
   color: #e2e8f0;
 }
 
+/* Card styles - use !important to override Tailwind reset */
+.card-light {
+  background: #ffffff !important;
+  border: 2px solid #c7d2fe !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 32px rgba(99,102,241,0.1), 0 2px 8px rgba(0,0,0,0.04) !important;
+}
+
+.card-dark {
+  background: #1e293b !important;
+  border: 2px solid #475569 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+}
+
+.card-light-sm {
+  background: #ffffff !important;
+  border: 1px solid #c7d2fe !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 16px rgba(99,102,241,0.08), 0 1px 4px rgba(0,0,0,0.03) !important;
+}
+
+.card-dark-sm {
+  background: #1e293b !important;
+  border: 1px solid #475569 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3) !important;
+}
+
+.input-light {
+  background: #f8fafc !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 12px !important;
+  color: #1e293b !important;
+}
+
+.input-light:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.15) !important;
+}
+
+.input-dark {
+  background: #1e293b !important;
+  border: 1px solid #475569 !important;
+  border-radius: 12px !important;
+  color: #f1f5f9 !important;
+}
+
+.input-dark:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.15) !important;
+}
+
+.btn-primary {
+  background: linear-gradient(to right, #6366f1, #9333ea) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 8px 24px rgba(99,102,241,0.3) !important;
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+.chip-active {
+  background: #6366f1 !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.3) !important;
+}
+
+.chip-light {
+  background: #e0e7ff !important;
+  color: #4f46e5 !important;
+  border: none !important;
+  border-radius: 8px !important;
+}
+
+.chip-dark {
+  background: #334155 !important;
+  color: #94a3b8 !important;
+  border: none !important;
+  border-radius: 8px !important;
+}
+
 /* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
+body.dark ::-webkit-scrollbar-thumb { background: #475569; }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #94a3b8;
-  border-radius: 3px;
-}
-
-body.dark ::-webkit-scrollbar-thumb {
-  background: #475569;
-}
-
-/* Glassmorphism utility */
+/* Glassmorphism navbar */
 .glass {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(199, 210, 254, 0.6) !important;
+  box-shadow: 0 1px 8px rgba(99,102,241,0.06) !important;
 }
 
 body.dark .glass {
-  background: rgba(15, 23, 42, 0.92);
-  border-bottom: 1px solid rgba(51, 65, 85, 0.6);
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+  background: rgba(15, 23, 42, 0.92) !important;
+  border-bottom: 1px solid rgba(71, 85, 105, 0.6) !important;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* Gradient text */
@@ -82,11 +159,6 @@ body.dark .glass {
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
 }
 
 .animate-float {

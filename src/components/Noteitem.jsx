@@ -82,11 +82,9 @@ const Noteitem = ({ note, updateNote, showAlert }) => {
         borderRadius: "16px",
       }
     : {
-        background: darkMode ? "#1e293b" : "#ffffff",
-        border: `1px solid ${darkMode ? "#475569" : "#c7d2fe"}`,
-        borderRadius: "16px",
-        boxShadow: darkMode ? "0 4px 20px rgba(0,0,0,0.3)" : "0 4px 16px rgba(99,102,241,0.06), 0 1px 4px rgba(0,0,0,0.04)",
       };
+
+  const noteCardClass = darkMode ? "card-dark-sm" : "card-light-sm";
 
   const actionBtnStyle = (hoverBg, hoverColor) => ({
     border: "none",
@@ -103,8 +101,8 @@ const Noteitem = ({ note, updateNote, showAlert }) => {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.3 }}
-      className="group relative p-5 transition-all duration-300 hover:-translate-y-1"
-      style={cardStyle}
+      className={`group relative p-5 transition-all duration-300 hover:-translate-y-1 ${isPinned ? "" : noteCardClass}`}
+      style={isPinned ? cardStyle : {}}
     >
       {/* Pin indicator */}
       {isPinned && (

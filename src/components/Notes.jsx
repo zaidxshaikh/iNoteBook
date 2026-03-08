@@ -379,9 +379,9 @@ const Notes = ({ showAlert }) => {
               className="w-full max-w-lg p-6"
               style={{
                 background: darkMode ? "#1e293b" : "#ffffff",
-                border: `1px solid ${darkMode ? "#334155" : "#e2e8f0"}`,
+                border: `1px solid ${darkMode ? "#475569" : "#c7d2fe"}`,
                 borderRadius: "16px",
-                boxShadow: darkMode ? "0 8px 40px rgba(0,0,0,0.5)" : "0 8px 40px rgba(0,0,0,0.15)",
+                boxShadow: darkMode ? "0 8px 40px rgba(0,0,0,0.5)" : "0 8px 40px rgba(99,102,241,0.12), 0 4px 12px rgba(0,0,0,0.08)",
               }}
             >
               <div className="flex items-center gap-3 mb-6">

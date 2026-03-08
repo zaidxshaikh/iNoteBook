@@ -24,7 +24,7 @@ function AppContent() {
     <Router>
       <div
         className="min-h-screen transition-colors duration-300"
-        style={{ background: darkMode ? "#0f172a" : "#f8fafc" }}
+        style={{ background: darkMode ? "#0f172a" : "#f1f5f9" }}
       >
         <Navbar showAlert={showAlert} />
         <Alert alert={alert} />

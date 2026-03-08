@@ -1,13 +1,13 @@
 import NoteContext from "./noteContext";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 const NoteState = (props) => {
-  const host = "http://localhost:5000";
-  const [notes, setnotes] = useState([]);
+  const host = import.meta.env.VITE_API_URL || "http://localhost:5000";
+  const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // get All notes
-  const getNotes = async () => {
-    //api call
+  const getNotes = useCallback(async () => {
+    setLoading(true);
     try {
       const response = await fetch(`${host}/api/notes/fetchallnotes`, {
         method: "GET",
@@ -16,16 +16,17 @@ const NoteState = (props) => {
           "auth-token": localStorage.getItem("token"),
         },
       });
+      if (!response.ok) throw new Error("Failed to fetch notes");
       const json = await response.json();
-      setnotes(json);
+      setNotes(json);
     } catch (error) {
-      console.error("Error get note:", error);
+      console.error("Error fetching notes:", error);
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [host]);
 
-  //Add note
   const addNote = async (title, description, tag) => {
-    //api call
     try {
       const response = await fetch(`${host}/api/notes/addnote`, {
         method: "POST",
@@ -35,42 +36,35 @@ const NoteState = (props) => {
         },
         body: JSON.stringify({ title, description, tag }),
       });
-      if (!response.ok) {
-        throw new Error("Failed to add note");
-      }
-
+      if (!response.ok) throw new Error("Failed to add note");
       const note = await response.json();
-
-      setnotes(notes.concat(note));
+      setNotes((prev) => [note, ...prev]);
+      return true;
     } catch (error) {
       console.error("Error adding note:", error);
+      return false;
     }
   };
 
-  //Delete note
-
   const deleteNote = async (id) => {
-    //api call
-    const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token"),
-      },
-    });
-    const json = await response.json();
-    setnotes(json);
-
-    const newNotes = notes.filter((note) => {
-      return note._id !== id;
-    });
-    setnotes(newNotes);
+    try {
+      const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("token"),
+        },
+      });
+      if (!response.ok) throw new Error("Failed to delete note");
+      setNotes((prev) => prev.filter((note) => note._id !== id));
+      return true;
+    } catch (error) {
+      console.error("Error deleting note:", error);
+      return false;
+    }
   };
 
-  //Edit note
-
-  const EditNote = async (id, title, description, tag) => {
-    //api call
+  const editNote = async (id, title, description, tag) => {
     try {
       const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
         method: "PUT",
@@ -80,34 +74,21 @@ const NoteState = (props) => {
         },
         body: JSON.stringify({ title, description, tag }),
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to update note");
-      }
-
-      const json = await response.json();
-      setnotes(json);
-
-      let newNotes = JSON.parse(JSON.stringify(notes));
-
-      for (let i = 0; i < newNotes.length; i++) {
-        const element = newNotes[i];
-        if (element._id === id) {
-          newNotes[i].title = title;
-          newNotes[i].description = description;
-          newNotes[i].tag = tag;
-          break;
-        }
-      }
-      setnotes(newNotes);
+      if (!response.ok) throw new Error("Failed to update note");
+      const updatedNote = await response.json();
+      setNotes((prev) =>
+        prev.map((note) => (note._id === id ? updatedNote : note))
+      );
+      return true;
     } catch (error) {
       console.error("Error editing note:", error);
+      return false;
     }
   };
 
   return (
     <NoteContext.Provider
-      value={{ notes, addNote, deleteNote, EditNote, getNotes }}
+      value={{ notes, addNote, deleteNote, editNote, getNotes, loading }}
     >
       {props.children}
     </NoteContext.Provider>

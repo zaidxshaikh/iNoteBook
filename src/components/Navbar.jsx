@@ -31,7 +31,10 @@ const Navbar = ({ showAlert }) => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 no-underline">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center shadow-lg">
+            <div
+              className="w-9 h-9 flex items-center justify-center bg-gradient-to-br from-primary-500 to-purple-600"
+              style={{ borderRadius: "12px", boxShadow: "0 4px 12px rgba(99,102,241,0.3)" }}
+            >
               <span className="text-white font-bold text-lg">i</span>
             </div>
             <span className="text-xl font-bold gradient-text">iNotebook</span>
@@ -43,13 +46,16 @@ const Navbar = ({ showAlert }) => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 no-underline ${
-                  location.pathname === link.path
-                    ? "bg-primary-500/10 text-primary-600 dark:text-primary-400"
-                    : darkMode
-                    ? "text-gray-300 hover:text-white hover:bg-white/5"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                }`}
+                className="px-4 py-2 text-sm font-medium transition-all duration-200 no-underline"
+                style={{
+                  borderRadius: "8px",
+                  background: location.pathname === link.path
+                    ? "rgba(99,102,241,0.1)"
+                    : "transparent",
+                  color: location.pathname === link.path
+                    ? (darkMode ? "#818cf8" : "#4f46e5")
+                    : (darkMode ? "#94a3b8" : "#64748b"),
+                }}
               >
                 {link.label}
               </Link>
@@ -60,11 +66,13 @@ const Navbar = ({ showAlert }) => {
           <div className="hidden md:flex items-center gap-3">
             <button
               onClick={toggleTheme}
-              className={`p-2.5 rounded-xl transition-all duration-200 cursor-pointer ${
-                darkMode
-                  ? "bg-slate-800 text-yellow-400 hover:bg-slate-700"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
+              className="p-2.5 transition-all duration-200 cursor-pointer"
+              style={{
+                background: darkMode ? "#334155" : "#f1f5f9",
+                border: "none",
+                borderRadius: "12px",
+                color: darkMode ? "#facc15" : "#64748b",
+              }}
               aria-label="Toggle theme"
             >
               {darkMode ? <FiSun size={18} /> : <FiMoon size={18} />}
@@ -73,7 +81,13 @@ const Navbar = ({ showAlert }) => {
             {isLoggedIn ? (
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500/20 font-medium text-sm transition-all duration-200 cursor-pointer border-none"
+                className="flex items-center gap-2 px-4 py-2 font-medium text-sm transition-all duration-200 cursor-pointer"
+                style={{
+                  background: "rgba(239,68,68,0.1)",
+                  color: "#ef4444",
+                  border: "none",
+                  borderRadius: "12px",
+                }}
               >
                 <FiLogOut size={16} />
                 Logout
@@ -82,18 +96,19 @@ const Navbar = ({ showAlert }) => {
               <div className="flex items-center gap-2">
                 <Link
                   to="/login"
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium text-sm transition-all duration-200 no-underline ${
-                    darkMode
-                      ? "text-gray-300 hover:bg-white/5"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`}
+                  className="flex items-center gap-2 px-4 py-2 font-medium text-sm transition-all duration-200 no-underline"
+                  style={{
+                    borderRadius: "12px",
+                    color: darkMode ? "#94a3b8" : "#64748b",
+                  }}
                 >
                   <FiLogIn size={16} />
                   Login
                 </Link>
                 <Link
                   to="/signup"
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-primary-500 to-purple-600 text-white font-medium text-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 no-underline"
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary-500 to-purple-600 text-white font-medium text-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 no-underline"
+                  style={{ borderRadius: "12px" }}
                 >
                   <FiUserPlus size={16} />
                   Sign Up
@@ -106,19 +121,25 @@ const Navbar = ({ showAlert }) => {
           <div className="flex md:hidden items-center gap-2">
             <button
               onClick={toggleTheme}
-              className={`p-2 rounded-lg transition-all cursor-pointer ${
-                darkMode
-                  ? "bg-slate-800 text-yellow-400"
-                  : "bg-gray-100 text-gray-600"
-              }`}
+              className="p-2 transition-all cursor-pointer"
+              style={{
+                background: darkMode ? "#334155" : "#f1f5f9",
+                border: "none",
+                borderRadius: "8px",
+                color: darkMode ? "#facc15" : "#64748b",
+              }}
             >
               {darkMode ? <FiSun size={18} /> : <FiMoon size={18} />}
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`p-2 rounded-lg transition-all cursor-pointer ${
-                darkMode ? "text-gray-300" : "text-gray-600"
-              }`}
+              className="p-2 transition-all cursor-pointer"
+              style={{
+                border: "none",
+                background: "transparent",
+                borderRadius: "8px",
+                color: darkMode ? "#94a3b8" : "#64748b",
+              }}
             >
               {mobileMenuOpen ? <HiX size={24} /> : <HiMenu size={24} />}
             </button>
@@ -136,29 +157,41 @@ const Navbar = ({ showAlert }) => {
             transition={{ duration: 0.2 }}
             className="md:hidden overflow-hidden"
           >
-            <div className={`px-4 pb-4 space-y-2 ${darkMode ? "border-t border-slate-800" : "border-t border-gray-100"}`}>
+            <div
+              className="px-4 pb-4 space-y-2"
+              style={{ borderTop: `1px solid ${darkMode ? "#334155" : "#e2e8f0"}` }}
+            >
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all no-underline ${
-                    location.pathname === link.path
-                      ? "bg-primary-500/10 text-primary-600"
-                      : darkMode
-                      ? "text-gray-300 hover:bg-white/5"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`}
+                  className="block px-4 py-3 text-sm font-medium transition-all no-underline"
+                  style={{
+                    borderRadius: "12px",
+                    background: location.pathname === link.path
+                      ? "rgba(99,102,241,0.1)"
+                      : "transparent",
+                    color: location.pathname === link.path
+                      ? "#6366f1"
+                      : (darkMode ? "#94a3b8" : "#64748b"),
+                  }}
                 >
                   {link.label}
                 </Link>
               ))}
 
-              <div className="pt-2 border-t border-gray-200 dark:border-slate-700">
+              <div style={{ paddingTop: "8px", borderTop: `1px solid ${darkMode ? "#334155" : "#e2e8f0"}` }}>
                 {isLoggedIn ? (
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-red-500/10 text-red-500 font-medium text-sm cursor-pointer border-none"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 font-medium text-sm cursor-pointer"
+                    style={{
+                      background: "rgba(239,68,68,0.1)",
+                      color: "#ef4444",
+                      border: "none",
+                      borderRadius: "12px",
+                    }}
                   >
                     <FiLogOut size={16} />
                     Logout
@@ -168,16 +201,20 @@ const Navbar = ({ showAlert }) => {
                     <Link
                       to="/login"
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`block text-center px-4 py-3 rounded-xl font-medium text-sm no-underline ${
-                        darkMode ? "text-gray-300 bg-slate-800" : "text-gray-600 bg-gray-100"
-                      }`}
+                      className="block text-center px-4 py-3 font-medium text-sm no-underline"
+                      style={{
+                        borderRadius: "12px",
+                        background: darkMode ? "#334155" : "#f1f5f9",
+                        color: darkMode ? "#94a3b8" : "#64748b",
+                      }}
                     >
                       Login
                     </Link>
                     <Link
                       to="/signup"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block text-center px-4 py-3 rounded-xl bg-gradient-to-r from-primary-500 to-purple-600 text-white font-medium text-sm no-underline"
+                      className="block text-center px-4 py-3 bg-gradient-to-r from-primary-500 to-purple-600 text-white font-medium text-sm no-underline"
+                      style={{ borderRadius: "12px" }}
                     >
                       Sign Up
                     </Link>

@@ -1,62 +1,33 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { FiCheckCircle, FiAlertCircle, FiInfo } from "react-icons/fi";
-import { useTheme } from "../context/ThemeContext";
 
-const Alert = ({ alert }) => {
-  const { darkMode } = useTheme();
+const cfg = {
+  success: { icon: <FiCheckCircle size={18} />, color: "#10b981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.15)" },
+  danger:  { icon: <FiAlertCircle size={18} />, color: "#ef4444", bg: "rgba(239,68,68,0.08)",  border: "rgba(239,68,68,0.15)" },
+  info:    { icon: <FiInfo size={18} />,        color: "#3b82f6", bg: "rgba(59,130,246,0.08)",  border: "rgba(59,130,246,0.15)" },
+};
 
-  const config = {
-    success: {
-      icon: <FiCheckCircle size={20} />,
-      bg: darkMode ? "rgba(16,185,129,0.1)" : "#ecfdf5",
-      border: darkMode ? "rgba(16,185,129,0.2)" : "#a7f3d0",
-      text: darkMode ? "#34d399" : "#065f46",
-      iconColor: "#10b981",
-    },
-    danger: {
-      icon: <FiAlertCircle size={20} />,
-      bg: darkMode ? "rgba(239,68,68,0.1)" : "#fef2f2",
-      border: darkMode ? "rgba(239,68,68,0.2)" : "#fecaca",
-      text: darkMode ? "#f87171" : "#991b1b",
-      iconColor: "#ef4444",
-    },
-    info: {
-      icon: <FiInfo size={20} />,
-      bg: darkMode ? "rgba(59,130,246,0.1)" : "#eff6ff",
-      border: darkMode ? "rgba(59,130,246,0.2)" : "#bfdbfe",
-      text: darkMode ? "#60a5fa" : "#1e40af",
-      iconColor: "#3b82f6",
-    },
-  };
-
+export default function Alert({ alert }) {
   return (
-    <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[100] w-full max-w-md px-4">
+    <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[100] w-full max-w-sm px-4">
       <AnimatePresence>
-        {alert && (
-          <motion.div
-            initial={{ opacity: 0, y: -20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            transition={{ duration: 0.3 }}
-            className="flex items-center gap-3 px-4 py-3"
-            style={{
-              background: (config[alert.type] || config.info).bg,
-              border: `1px solid ${(config[alert.type] || config.info).border}`,
-              borderRadius: "12px",
-              boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
-            }}
-          >
-            <span style={{ color: (config[alert.type] || config.info).iconColor }}>
-              {(config[alert.type] || config.info).icon}
-            </span>
-            <p className="text-sm font-medium flex-1" style={{ color: (config[alert.type] || config.info).text }}>
-              {alert.msg}
-            </p>
-          </motion.div>
-        )}
+        {alert && (() => {
+          const s = cfg[alert.type] || cfg.info;
+          return (
+            <motion.div
+              initial={{ opacity: 0, y: -12, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -12, scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              className="flex items-center gap-3 px-4 py-3"
+              style={{ background: s.bg, border: `1px solid ${s.border}`,
+                borderRadius: 14, backdropFilter: "blur(16px)", boxShadow: `0 8px 24px ${s.border}` }}>
+              <span style={{ color: s.color }}>{s.icon}</span>
+              <p className="text-sm font-semibold flex-1" style={{ color: s.color }}>{alert.msg}</p>
+            </motion.div>
+          );
+        })()}
       </AnimatePresence>
     </div>
   );
-};
-
-export default Alert;
+}

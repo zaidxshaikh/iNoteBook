@@ -122,9 +122,9 @@ const Signup = ({ showAlert }) => {
           className="p-6 sm:p-8"
           style={{
             background: darkMode ? "#1e293b" : "#ffffff",
-            border: `1px solid ${darkMode ? "#334155" : "#e2e8f0"}`,
+            border: `1px solid ${darkMode ? "#475569" : "#c7d2fe"}`,
             borderRadius: "16px",
-            boxShadow: darkMode ? "0 4px 24px rgba(0,0,0,0.3)" : "0 4px 24px rgba(0,0,0,0.06)",
+            boxShadow: darkMode ? "0 8px 32px rgba(0,0,0,0.4)" : "0 8px 32px rgba(99,102,241,0.08), 0 2px 8px rgba(0,0,0,0.06)",
           }}
         >
           <form onSubmit={handleSubmit} className="space-y-4">

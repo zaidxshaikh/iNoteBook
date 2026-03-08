@@ -83,9 +83,9 @@ const About = () => {
             className="p-6 transition-all duration-300 hover:-translate-y-1"
             style={{
               background: darkMode ? "#1e293b" : "#ffffff",
-              border: `1px solid ${darkMode ? "#334155" : "#e2e8f0"}`,
+              border: `1px solid ${darkMode ? "#475569" : "#c7d2fe"}`,
               borderRadius: "16px",
-              boxShadow: darkMode ? "0 4px 24px rgba(0,0,0,0.3)" : "0 4px 24px rgba(0,0,0,0.06)",
+              boxShadow: darkMode ? "0 4px 20px rgba(0,0,0,0.3)" : "0 4px 16px rgba(99,102,241,0.06), 0 1px 4px rgba(0,0,0,0.04)",
             }}
           >
             <div

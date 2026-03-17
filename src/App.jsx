@@ -8,6 +8,11 @@ import About from "./components/About";
 import Trash from "./components/Trash";
 import Reminders from "./components/Reminders";
 import ConnectDevice from "./components/ConnectDevice";
+import CalendarView from "./components/CalendarView";
+import KanbanBoard from "./components/KanbanBoard";
+import Analytics from "./components/Analytics";
+import HabitTracker from "./components/HabitTracker";
+import PomodoroTimer from "./components/PomodoroTimer";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import { useState } from "react";
@@ -21,10 +26,15 @@ function AnimatedRoutes({ showAlert, notifications }) {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageWrap><Home showAlert={showAlert} notifications={notifications} /></PageWrap>} />
-        <Route path="/about" element={<PageWrap><About /></PageWrap>} />
-        <Route path="/trash" element={<PageWrap><Trash showAlert={showAlert} /></PageWrap>} />
+        <Route path="/calendar" element={<PageWrap><CalendarView showAlert={showAlert} /></PageWrap>} />
+        <Route path="/kanban" element={<PageWrap><KanbanBoard showAlert={showAlert} /></PageWrap>} />
+        <Route path="/habits" element={<PageWrap><HabitTracker showAlert={showAlert} /></PageWrap>} />
+        <Route path="/pomodoro" element={<PageWrap><PomodoroTimer showAlert={showAlert} /></PageWrap>} />
+        <Route path="/analytics" element={<PageWrap><Analytics /></PageWrap>} />
         <Route path="/reminders" element={<PageWrap><Reminders showAlert={showAlert} notifications={notifications} /></PageWrap>} />
+        <Route path="/trash" element={<PageWrap><Trash showAlert={showAlert} /></PageWrap>} />
         <Route path="/connect" element={<PageWrap><ConnectDevice showAlert={showAlert} /></PageWrap>} />
+        <Route path="/about" element={<PageWrap><About /></PageWrap>} />
         <Route path="/login" element={<Login showAlert={showAlert} />} />
         <Route path="/signup" element={<Signup showAlert={showAlert} />} />
       </Routes>

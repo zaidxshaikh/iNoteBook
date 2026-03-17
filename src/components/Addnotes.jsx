@@ -1,8 +1,11 @@
 import { useContext, useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiPlus, FiTag, FiChevronDown, FiSend, FiDroplet, FiMaximize, FiMinimize, FiLayout } from "react-icons/fi";
+import { FiPlus, FiTag, FiChevronDown, FiSend, FiDroplet, FiMaximize, FiMinimize, FiLayout, FiEdit3 } from "react-icons/fi";
 import noteContext from "../context/notes/noteContext";
 import { useTheme } from "../context/ThemeContext";
+import VoiceInput from "./VoiceInput";
+import EmojiPicker from "./EmojiPicker";
+import DrawingPad from "./DrawingPad";
 
 const quickTags = [
   { name: "Personal", emoji: "\u{1F464}", color: "#3b82f6" },
@@ -72,6 +75,7 @@ export default function Addnotes({ showAlert }) {
   const [showColors, setShowColors] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
   const [zenMode, setZenMode] = useState(false);
+  const [drawMode, setDrawMode] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const ref = useRef(null);
 
@@ -150,6 +154,20 @@ export default function Addnotes({ showAlert }) {
   const txt = dark ? "#f1f5f9" : "#0f172a";
   const sub = dark ? "#94a3b8" : "#64748b";
   const muted = dark ? "#64748b" : "#94a3b8";
+
+  // Drawing pad
+  if (drawMode) {
+    return (
+      <DrawingPad
+        onSave={(dataUrl) => {
+          setNote({ ...note, description: note.description + `\n[Sketch saved at ${new Date().toLocaleTimeString()}]` });
+          showAlert("Sketch saved to note!", "success");
+          setDrawMode(false);
+        }}
+        onClose={() => setDrawMode(false)}
+      />
+    );
+  }
 
   // Zen mode - fullscreen editor
   if (zenMode) {
@@ -365,6 +383,15 @@ export default function Addnotes({ showAlert }) {
                         border: `1px solid ${dark ? "rgba(71,85,105,0.3)" : "rgba(203,213,225,0.5)"}`,
                       }}>Ctrl+N</kbd>
                     </span>
+                    <VoiceInput showAlert={showAlert}
+                      onResult={(text) => setNote({ ...note, description: note.description + text })} />
+                    <EmojiPicker showAlert={showAlert}
+                      onSelect={(emoji) => setNote({ ...note, description: note.description + emoji })} />
+                    <button type="button" onClick={() => setDrawMode(true)} title="Sketch Pad"
+                      className="p-1.5 cursor-pointer"
+                      style={{ border: "none", background: "transparent", color: muted, borderRadius: 6 }}>
+                      <FiEdit3 size={14} />
+                    </button>
                     <button type="button" onClick={() => setZenMode(true)} title="Focus Mode"
                       className="p-1.5 cursor-pointer"
                       style={{ border: "none", background: "transparent", color: muted, borderRadius: 6 }}>

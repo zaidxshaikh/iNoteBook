@@ -6,6 +6,7 @@ import {
   FiSun, FiMoon, FiLogOut, FiHome, FiInfo, FiTrash2, FiBell,
   FiSmartphone, FiWifi, FiWifiOff, FiCalendar, FiColumns,
   FiBarChart2, FiTarget, FiClock, FiMoreHorizontal, FiChevronDown,
+  FiHeart, FiMusic, FiBookOpen, FiGitCommit, FiCommand,
 } from "react-icons/fi";
 import { useTheme } from "../context/ThemeContext";
 import noteContext from "../context/notes/noteContext";
@@ -18,9 +19,13 @@ const mainLinks = [
 ];
 
 const moreLinks = [
+  { to: "/timeline", label: "Timeline", icon: <FiGitCommit size={16} /> },
+  { to: "/flashcards", label: "Flashcards", icon: <FiBookOpen size={16} /> },
   { to: "/habits", label: "Habits", icon: <FiTarget size={16} /> },
   { to: "/pomodoro", label: "Pomodoro", icon: <FiClock size={16} /> },
+  { to: "/music", label: "Focus Music", icon: <FiMusic size={16} /> },
   { to: "/analytics", label: "Analytics", icon: <FiBarChart2 size={16} /> },
+  { to: "/favorites", label: "Favorites", icon: <FiHeart size={16} /> },
   { to: "/trash", label: "Trash", icon: <FiTrash2 size={16} />, badgeKey: "trash" },
   { to: "/connect", label: "Connect", icon: <FiSmartphone size={16} /> },
   { to: "/about", label: "About", icon: <FiInfo size={16} /> },

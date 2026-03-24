@@ -6,6 +6,7 @@ import { useTheme } from "../context/ThemeContext";
 import VoiceInput from "./VoiceInput";
 import EmojiPicker from "./EmojiPicker";
 import DrawingPad from "./DrawingPad";
+import MarkdownPreview from "./MarkdownPreview";
 
 const quickTags = [
   { name: "Personal", emoji: "\u{1F464}", color: "#3b82f6" },
@@ -319,8 +320,10 @@ export default function Addnotes({ showAlert }) {
                     </div>
                   </div>
                   <textarea value={note.description} onChange={(e) => setNote({ ...note, description: e.target.value })}
-                    placeholder="Write your thoughts here..." minLength={5} required rows={3}
+                    placeholder="Write your thoughts here... (supports **bold**, *italic*, # headings, - [ ] checklists)"
+                    minLength={5} required rows={3}
                     className="input-modern" style={{ resize: "none" }} />
+                  {note.description.length > 10 && <MarkdownPreview text={note.description} />}
                 </div>
 
                 {/* Tags */}

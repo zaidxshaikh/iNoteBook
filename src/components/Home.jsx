@@ -4,6 +4,7 @@ import { FiFileText, FiTag, FiStar, FiActivity, FiTrendingUp, FiClock } from "re
 import noteContext from "../context/notes/noteContext";
 import { useTheme } from "../context/ThemeContext";
 import Notes from "./Notes";
+import QuoteWidget from "./QuoteWidget";
 
 const statCfg = [
   { key: "total",  icon: <FiFileText size={20} />,  label: "Total Notes", bg: "linear-gradient(135deg,#7c3aed,#6366f1)" },
@@ -200,7 +201,11 @@ export default function Home({ showAlert, notifications }) {
         </motion.div>
       )}
 
-      <Notes showAlert={showAlert} notifications={notifications} />
+      {loggedIn && <QuoteWidget />}
+
+      <div className="mt-6">
+        <Notes showAlert={showAlert} notifications={notifications} />
+      </div>
     </div>
   );
 }

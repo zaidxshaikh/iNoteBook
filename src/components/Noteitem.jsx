@@ -1,9 +1,14 @@
 import { useContext, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiEdit2, FiTrash2, FiClock, FiCopy, FiCheck, FiStar, FiMaximize2, FiX, FiShare2, FiBell } from "react-icons/fi";
+import { FiEdit2, FiTrash2, FiClock, FiCopy, FiCheck, FiStar, FiMaximize2, FiX, FiShare2, FiBell, FiPrinter } from "react-icons/fi";
 import { HiDuplicate } from "react-icons/hi";
 import noteContext from "../context/notes/noteContext";
 import { useTheme } from "../context/ThemeContext";
+import { LockButton, LockGate, isNoteLocked } from "./NoteLock";
+import PrintNote from "./PrintNote";
+import AISummary from "./AISummary";
+import { isFavorite, toggleFavorite } from "./Favorites";
+import { FiHeart, FiZap } from "react-icons/fi";
 
 const accentMap = {
   pinned: "accent-pinned", personal: "accent-personal", work: "accent-work",
@@ -26,6 +31,8 @@ export default function Noteitem({ note, updateNote, showAlert, selectable, sele
   const [shareMenu, setShareMenu] = useState(false);
   const [reminderMenu, setReminderMenu] = useState(false);
   const [customReminder, setCustomReminder] = useState("");
+  const [showAI, setShowAI] = useState(false);
+  const [fav, setFav] = useState(isFavorite(note._id));
 
   const doDelete = async () => {
     setDeleting(true);
@@ -167,14 +174,26 @@ export default function Noteitem({ note, updateNote, showAlert, selectable, sele
             <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: dot }}>
               {note.tag || "General"}
             </span>
+            {isNoteLocked(note._id) && <FiBell size={11} style={{ color: "#f59e0b" }} title="Locked" />}
             <span className="text-xs ml-auto" style={{ color: muted }}>{wordCount}w ~{readTime}min</span>
           </div>
 
-          {/* Content */}
-          <h3 className="text-base font-bold mb-1.5 line-clamp-1 pr-8" style={{ color: txt }}>{note.title}</h3>
-          <p className="text-sm leading-relaxed line-clamp-3 mb-4 whitespace-pre-wrap" style={{ color: sub }}>
-            {note.description}
-          </p>
+          {/* Content - Lock Gate */}
+          {isNoteLocked(note._id) ? (
+            <LockGate noteId={note._id} showAlert={showAlert}>
+              <h3 className="text-base font-bold mb-1.5 line-clamp-1 pr-8" style={{ color: txt }}>{note.title}</h3>
+              <p className="text-sm leading-relaxed line-clamp-3 mb-4 whitespace-pre-wrap" style={{ color: sub }}>
+                {note.description}
+              </p>
+            </LockGate>
+          ) : (
+            <>
+              <h3 className="text-base font-bold mb-1.5 line-clamp-1 pr-8" style={{ color: txt }}>{note.title}</h3>
+              <p className="text-sm leading-relaxed line-clamp-3 mb-4 whitespace-pre-wrap" style={{ color: sub }}>
+                {note.description}
+              </p>
+            </>
+          )}
 
           {/* Bottom row */}
           <div className="flex items-center justify-between">
@@ -200,6 +219,18 @@ export default function Noteitem({ note, updateNote, showAlert, selectable, sele
                   {a.icon}
                 </button>
               ))}
+              <button onClick={() => { setFav(toggleFavorite(note._id)); showAlert(fav ? "Removed from favorites" : "Added to favorites!", "success"); }}
+                title="Favorite" className="p-1.5 cursor-pointer hover:scale-110 transition-transform"
+                style={{ border: "none", background: "transparent", borderRadius: 6, color: fav ? "#ec4899" : muted }}>
+                <FiHeart size={14} style={fav ? { fill: "#ec4899" } : {}} />
+              </button>
+              <button onClick={() => setShowAI(true)} title="AI Summary"
+                className="p-1.5 cursor-pointer hover:scale-110 transition-transform"
+                style={{ border: "none", background: "transparent", borderRadius: 6, color: muted }}>
+                <FiZap size={14} />
+              </button>
+              <LockButton noteId={note._id} showAlert={showAlert} />
+              <PrintNote note={note} />
 
               {/* Reminder dropdown */}
               <AnimatePresence>
@@ -302,6 +333,11 @@ export default function Noteitem({ note, updateNote, showAlert, selectable, sele
           </AnimatePresence>
         </div>
       </motion.div>
+
+      {/* AI Summary */}
+      <AnimatePresence>
+        {showAI && <AISummary note={note} onClose={() => setShowAI(false)} />}
+      </AnimatePresence>
 
       {/* Expand Modal */}
       <AnimatePresence>
